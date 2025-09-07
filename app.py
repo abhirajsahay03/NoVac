@@ -6,9 +6,9 @@ st.title(" NoVac Air Quality Visualizer")
 city = st.text_input("Enter city name")
 
 if st.button("Get AQI Data"):
-    api_key = st.secrets["api_key"]
+    # api_key = st.secrets["api_key"]
 
-
+    api_key = "91eda92ab367c31f35edc8ce54154921"  # keep API key as string
     #  Get coordinates
     geocode_url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={api_key}"
     geo_res = requests.get(geocode_url).json()
@@ -28,12 +28,12 @@ if st.button("Get AQI Data"):
             meaning = ["Good 😊", "Fair 🙂", "Moderate 😐", "Poor 😷", "Very Poor 🛑"]
 
             suggestions = {
-                        1: "✅ It's a great day to be outdoors!",
-                        2: "🙂 Air quality is okay. Sensitive individuals should monitor their symptoms.",
-                        3: "😐 Consider limiting prolonged outdoor exertion.",
-                        4: "⚠️ Avoid outdoor activities if you have breathing issues or are in a vulnerable group.",
-                        5: "🚫 Stay indoors! Use masks and air purifiers if available."
-                          }
+                1: "✅ It's a great day to be outdoors!",
+                2: "🙂 Air quality is okay. Sensitive individuals should monitor their symptoms.",
+                3: "😐 Consider limiting prolonged outdoor exertion.",
+                4: "⚠️ Avoid outdoor activities if you have breathing issues or are in a vulnerable group.",
+                5: "🚫 Stay indoors! Use masks and air purifiers if available."
+            }
 
             st.subheader(f"Air Quality Index (AQI) in {city}:")
             st.metric("AQI", aqi, meaning[aqi - 1])
@@ -54,12 +54,11 @@ if st.button("Get AQI Data"):
             csv = csv_data.to_csv(index=False).encode("utf-8")
 
             st.download_button(
-            label="📥 Download Pollutant Data as CSV",
-            data=csv,
-            file_name=f"AQI_Pollutants_{city}.csv",
-            mime="text/csv"
-             )     
-
+                label="📥 Download Pollutant Data as CSV",
+                data=csv,
+                file_name=f"AQI_Pollutants_{city}.csv",
+                mime="text/csv"
+            )
 
         else:
             st.error("Failed to fetch AQI data.")
